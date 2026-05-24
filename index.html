@@ -189,6 +189,17 @@ header p { font-size: .83rem; color: #a89f8c; margin-top: .28rem; font-style: it
 .admin-btn { position: fixed; bottom: .9rem; right: .9rem; background: rgba(18,16,14,.4); color: rgba(168,159,140,.5); border: none; border-radius: 6px; padding: .32rem .72rem; font-size: .63rem; font-weight: 700; cursor: pointer; z-index: 50; transition: all .2s; font-family: 'Trebuchet MS', Arial, sans-serif; text-transform: uppercase; }
 .admin-btn:hover { background: var(--navy); color: var(--gold); }
 
+/* ── GILLES SCREEN ── */
+#screen-gilles header { background: #3d1a2e; border-bottom-color: #c9547a; }
+#screen-gilles .section-block { border-left: 3px solid #c9547a; }
+#screen-gilles .section-block h3 { color: #7a1a3e; border-bottom-color: #f0d0dc; }
+.gilles-notice { background: #fdf0f4; border: 1px solid #e8a0b8; border-radius: 10px; padding: .9rem 1rem; font-size: .82rem; color: #5a1030; margin-bottom: 1rem; line-height: 1.55; }
+.dare-diff-select { font-size: .82rem; padding: .38rem .6rem; border: 1.5px solid #e0b8cc; border-radius: 7px; color: #5a1030; background: #fff5f8; width: 100%; margin-top: .25rem; font-family: 'Georgia', serif; }
+.dare-diff-select:focus { outline: none; border-color: #c9547a; }
+.gilles-dare-row { margin-bottom: .85rem; padding-bottom: .85rem; border-bottom: 1px solid #f5dde6; }
+.gilles-dare-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.gilles-dare-num { font-size: .7rem; font-weight: 800; color: #c9547a; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .25rem; font-family: 'Trebuchet MS', Arial, sans-serif; }
+
 /* MOBILE */
 @media (max-width: 560px) {
   header h1 { font-size: 1.3rem; }
@@ -207,7 +218,7 @@ header p { font-size: .83rem; color: #a89f8c; margin-top: .28rem; font-style: it
 ══════════════════════════════════════════ -->
 <div id="screen-home" class="screen active">
   <header>
-    <h1>💍 EVJF de <span class="gold">Mathilde</span> 💍</h1>
+    <h1 id="home-logo" onclick="homeLogoTap()" style="cursor:default; user-select:none;">💍 EVJF de <span class="gold">Mathilde</span> 💍</h1>
     <p>Que le weekend commence !</p>
   </header>
   <div class="wrap">
@@ -433,6 +444,36 @@ header p { font-size: .83rem; color: #a89f8c; margin-top: .28rem; font-style: it
         <p style="font-size:.77rem; color:#7a6e5c; margin-bottom:.45rem; font-style:italic;">👇 Copiez et envoyez ce code par WhatsApp :</p>
         <div class="code-box" id="share-code-display"></div>
         <button class="btn btn-navy" onclick="copyShareCode(this)" style="margin-top:.45rem;">📋 Copier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     GILLES — Réponses & Défis secrets
+══════════════════════════════════════════ -->
+<div id="screen-gilles" class="screen">
+  <header>
+    <h1>🤵 Section de <span class="gold">Gilles</span></h1>
+    <p>Tes réponses & tes défis secrets pour Mathilde</p>
+  </header>
+  <div class="wrap">
+    <div class="gilles-notice">👋 Bonjour Gilles ! Réponds aux 25 questions sur toi-même — Mathilde devra deviner tes réponses le jour J. Ensuite, invente 4 défis personnels pour elle. Une fois terminé, clique sur <strong>"Générer mon code"</strong> et envoie-le à l'organisatrice par WhatsApp.</div>
+    <div id="gilles-form"></div>
+    <div class="section-block" style="margin-top:1rem;">
+      <h3>🎯 Tes 4 défis pour Mathilde</h3>
+      <p style="font-size:.8rem; color:var(--muted); margin-bottom:1rem; font-style:italic;">Invente 4 défis personnels — du plus facile au plus extrême. Ce sont tes défis à toi, personne d'autre ne les connaît !</p>
+      <div id="gilles-dares-form"></div>
+    </div>
+    <div style="text-align:center; margin-top:1.5rem; display:flex; flex-direction:column; gap:.85rem; align-items:center;">
+      <div class="btn-group">
+        <button class="btn btn-gold" onclick="generateGillesCode()">📲 Générer mon code</button>
+        <button class="btn btn-back" onclick="showScreen('home')">← Retour</button>
+      </div>
+      <div id="gilles-code-area" style="display:none; width:100%; max-width:540px;">
+        <p style="font-size:.77rem; color:#7a6e5c; margin-bottom:.45rem; font-style:italic;">👇 Copie et envoie ce code à l'organisatrice par WhatsApp :</p>
+        <div class="code-box" id="gilles-code-display"></div>
+        <button class="btn btn-navy" onclick="copyGillesCode(this)" style="margin-top:.45rem;">📋 Copier le code</button>
       </div>
     </div>
   </div>
@@ -712,11 +753,13 @@ const G2_DARES = [
 // STATE
 // ─────────────────────────────────────────
 const PASSWORD = "Loulou";
+const GILLES_PASSWORD = "PJISMAGIC";
 let pwTarget = 'setup'; // where to go after password
 
 let answers     = {};   // {idx: "Gilles answer"}
 let customQ     = {};   // {idx: "custom question"} — overrides G1_DEFAULTS
 let customDares = {};   // {idx: "custom dare"}     — overrides G2_DARES
+let gigiDares   = [];   // [{text, diff}] — Gilles' 4 personal dares
 let g1State  = {}, g1Score = {ok:0,ko:0,pts:0};
 let g2State  = {}, g2Score = {ok:0,ko:0,pts:0};
 let curCell  = null, curGame = 1;
@@ -734,6 +777,7 @@ function loadState() {
     const s1 = localStorage.getItem('evjf_g1sc'); if(s1) g1Score     = JSON.parse(s1);
     const g2 = localStorage.getItem('evjf_g2s');  if(g2) g2State     = JSON.parse(g2);
     const s2 = localStorage.getItem('evjf_g2sc'); if(s2) g2Score     = JSON.parse(s2);
+    const gd = localStorage.getItem('evjf_gigi'); if(gd) gigiDares   = JSON.parse(gd);
   } catch(e){}
 }
 function saveState() {
@@ -744,6 +788,7 @@ function saveState() {
   localStorage.setItem('evjf_g1sc', JSON.stringify(g1Score));
   localStorage.setItem('evjf_g2s',  JSON.stringify(g2State));
   localStorage.setItem('evjf_g2sc', JSON.stringify(g2Score));
+  localStorage.setItem('evjf_gigi', JSON.stringify(gigiDares));
 }
 
 // ─────────────────────────────────────────
@@ -1087,6 +1132,91 @@ function loadSuggestImportD() {
 }
 
 // ─────────────────────────────────────────
+// ─────────────────────────────────────────
+// GILLES FORM
+// ─────────────────────────────────────────
+let _logoTaps = 0, _logoTimer = null;
+function homeLogoTap() {
+  _logoTaps++;
+  clearTimeout(_logoTimer);
+  _logoTimer = setTimeout(() => { _logoTaps = 0; }, 900);
+  if (_logoTaps >= 5) {
+    _logoTaps = 0;
+    showPwModal('gilles');
+  }
+}
+
+function buildGillesForm() {
+  // ── Questions ──
+  const wrap = document.getElementById('gilles-form');
+  wrap.innerHTML = '';
+  G1_THEMES.forEach((theme, ti) => {
+    const sec = document.createElement('div'); sec.className = 'section-block';
+    sec.innerHTML = `<h3>${theme.emoji} ${theme.name}</h3>`;
+    G1_DIFFS.forEach((diff, di) => {
+      const idx = ti * 5 + di;
+      const g = document.createElement('div'); g.className = 'field-group';
+      g.innerHTML = `
+        <div class="field-lbl"><span class="stars" style="color:${diff.color}">${diff.stars}</span><span>${getQ(idx)}</span></div>
+        <input type="text" id="gilles-inp-${idx}" placeholder="Ta réponse…" value="${(answers[idx]||'').replace(/"/g,'&quot;')}">
+      `;
+      sec.appendChild(g);
+    });
+    wrap.appendChild(sec);
+  });
+
+  // ── Dares ──
+  const daresWrap = document.getElementById('gilles-dares-form');
+  daresWrap.innerHTML = '';
+  const diffLabels = G2_DIFFS.map(d => d.label);
+  for (let i = 0; i < 4; i++) {
+    const saved = gigiDares[i] || {text:'', diff:i};
+    const row = document.createElement('div'); row.className = 'gilles-dare-row';
+    row.innerHTML = `
+      <div class="gilles-dare-num">Défi ${i+1}</div>
+      <div class="field-group" style="margin-bottom:.35rem;">
+        <div class="field-lbl">Décris le défi :</div>
+        <input type="text" id="gigi-dare-${i}" placeholder="Ex: Chanter une chanson devant des inconnus…" value="${(saved.text||'').replace(/"/g,'&quot;')}">
+      </div>
+      <select class="dare-diff-select" id="gigi-diff-${i}">
+        ${diffLabels.map((l,j)=>`<option value="${j}" ${saved.diff===j?'selected':''}>${G2_DIFFS[j].stars} ${l}</option>`).join('')}
+      </select>
+    `;
+    daresWrap.appendChild(row);
+  }
+  document.getElementById('gilles-code-area').style.display = 'none';
+}
+
+function generateGillesCode() {
+  // Collect answers
+  for (let i = 0; i < 25; i++) {
+    const el = document.getElementById('gilles-inp-' + i);
+    if (el) answers[i] = el.value.trim();
+  }
+  // Collect dares
+  gigiDares = [];
+  for (let i = 0; i < 4; i++) {
+    const text = (document.getElementById('gigi-dare-' + i)?.value || '').trim();
+    const diff = parseInt(document.getElementById('gigi-diff-' + i)?.value || i);
+    gigiDares.push({text, diff});
+  }
+  saveState();
+  const payload = {v:2, a: answers, d: gigiDares};
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+  document.getElementById('gilles-code-display').textContent = code;
+  document.getElementById('gilles-code-area').style.display = 'block';
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function copyGillesCode(btn) {
+  const code = document.getElementById('gilles-code-display').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const o = btn.textContent; btn.textContent = '✅ Copié !'; btn.style.background = '#16a34a';
+    setTimeout(() => { btn.textContent = o; btn.style.background = ''; }, 2500);
+  }).catch(() => prompt('Copie manuellement :', code));
+}
+
+// ─────────────────────────────────────────
 // ADMIN / PASSWORD
 // ─────────────────────────────────────────
 function showPwModal(target='setup') {
@@ -1097,10 +1227,14 @@ function showPwModal(target='setup') {
   setTimeout(()=>document.getElementById('pw-input').focus(),150);
 }
 function checkPw() {
-  if(document.getElementById('pw-input').value===PASSWORD){
+  const val = document.getElementById('pw-input').value;
+  if(val === PASSWORD){
     closeModal('modal-pw');
     if(pwTarget==='setup'){ buildAdminHub(); showScreen('admin-hub'); }
     else showScreen(pwTarget);
+  } else if(val === GILLES_PASSWORD){
+    closeModal('modal-pw');
+    buildGillesForm(); showScreen('gilles');
   } else {
     document.getElementById('pw-error').classList.add('show');
     document.getElementById('pw-input').value='';
@@ -1163,14 +1297,27 @@ function showImportModal() {
 }
 function importCode() {
   try {
-    answers=JSON.parse(decodeURIComponent(escape(atob(document.getElementById('import-input').value.trim()))));
+    const raw = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('import-input').value.trim()))));
+    let daresImported = false;
+    if (raw && raw.v === 2) {
+      // v2 format: {v:2, a: answers, d: gigiDares}
+      answers = raw.a || {};
+      gigiDares = raw.d || [];
+      daresImported = gigiDares.length > 0;
+    } else {
+      // legacy format: plain answers object
+      answers = raw;
+    }
     saveState(); closeModal('modal-import');
-    const hero=document.querySelector('#screen-g1-land .hero');
-    const orig=hero.innerHTML;
-    hero.innerHTML='<div class="deco">✅ 💍 ✅</div><h2>Réponses de Gilles importées !</h2><p>Lance la partie !</p>';
-    hero.style.borderColor='#2d9e6b';
-    setTimeout(()=>{hero.innerHTML=orig;hero.style.borderColor='';},3500);
-  } catch(e){document.getElementById('import-error').classList.add('show');}
+    const hero = document.querySelector('#screen-g1-land .hero');
+    const orig = hero.innerHTML;
+    const msg = daresImported
+      ? '<div class="deco">✅ 💍 ✅</div><h2>Réponses + défis de Gilles importés !</h2><p>Lance la partie !</p>'
+      : '<div class="deco">✅ 💍 ✅</div><h2>Réponses de Gilles importées !</h2><p>Lance la partie !</p>';
+    hero.innerHTML = msg;
+    hero.style.borderColor = '#2d9e6b';
+    setTimeout(() => { hero.innerHTML = orig; hero.style.borderColor = ''; }, 3500);
+  } catch(e) { document.getElementById('import-error').classList.add('show'); }
 }
 
 // ─────────────────────────────────────────
