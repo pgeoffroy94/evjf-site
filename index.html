@@ -241,7 +241,8 @@ header p { font-size: .83rem; color: #a89f8c; margin-top: .28rem; font-style: it
         <div class="badge">16 défis · 4 catégories</div>
       </div>
     </div>
-    <div class="game-cards">
+    <!-- suggest card hidden — collection closed -->
+    <div class="game-cards" style="display:none;">
       <div class="game-card" onclick="showScreen('suggest')">
         <div class="ci">💡</div>
         <h3>Proposer des idées</h3>
@@ -676,43 +677,43 @@ const G2_DIFFS = [
 // GAME 1 — THEMES & DEFAULT QUESTIONS
 // ─────────────────────────────────────────
 const G1_THEMES = [
-  {name:"Gilles à la maison",   emoji:"🏠"},
-  {name:"Gilles en couple",     emoji:"💑"},
-  {name:"Gilles en soirée",     emoji:"🍻"},
-  {name:"Ses moments de génie", emoji:"🤦"},
-  {name:"Pot pourri",           emoji:"🎲"},
+  {name:"Gilles à la maison",  emoji:"🏠"},
+  {name:"Gilles & Mathilde",   emoji:"💑"},
+  {name:"Pile ou face",        emoji:"🪞"},
+  {name:"Dans sa tête",        emoji:"🧠"},
+  {name:"En vrac",             emoji:"🎲"},
 ];
 
 const G1_DEFAULTS = [
-  // 🏠 Maison
-  "Range ses affaires spontanément ou il faut lui demander 3 fois ?",
+  // 🏠 Gilles à la maison
   "Combien de minutes pour se préparer le matin ?",
-  "La corvée domestique qu'il déteste — et son excuse préférée pour ne pas la faire ?",
+  "Range ses affaires spontanément ou il faut lui demander 3 fois ?",
+  "La corvée domestique qu'il déteste le plus ?",
+  "Le partage des tâches ménagères chez vous : 50/50, 20/80 ou 80/20 ?",
   "Son truc le plus bizarre ou agaçant à la maison — celui qu'il reconnaît lui-même ?",
-  "Si on fouillait sous son canapé, qu'est-ce qu'on y trouverait selon lui ?",
-  // 💑 En couple
-  "Qui décide généralement du restaurant ?",
-  "Sa technique infaillible pour se faire pardonner quand il a clairement tort ?",
+  // 💑 Gilles & Mathilde
+  "Qui décide à la maison ?",
   "Le pire cadeau qu'il t'ait jamais offert — et son explication de l'époque ?",
-  "La chose la plus folle ou embarrassante qu'il ait faite pour t'impressionner au début ?",
-  "Sa position préférée… selon lui. 🌶️",
-  // 🍻 Soirée
-  "Sa boisson de soirée préférée ?",
+  "La chose la plus folle qu'il ait faite pour t'impressionner au début ?",
+  "Sa technique infaillible pour se faire pardonner ?",
+  "Ce qui l'énerve le plus chez toi — et réciproquement, qu'aurait-il deviné ?",
+  // 🪞 Pile ou face
+  "Qui plonge le premier dans l'eau à 16 degrés ?",
+  "Sa saison préférée — et pour la tienne ?",
+  "Son film culte — et pour le tien ?",
+  "Son petit plaisir coupable — et pour toi ?",
+  "Sa position préférée… et quelle position pense-t-il être la tienne ? 🌶️",
+  // 🧠 Dans sa tête
+  "La chose la plus catastrophique qu'il ait faite en cuisine — et le résultat ?",
+  "Son talent caché dont il est le plus fier — même si personne d'autre ne le voit vraiment ?",
+  "Le pays que vous rêvez de découvrir ensemble ?",
+  "S'il était un personnage de film ou de série, lequel — et pourquoi c'est faux ?",
+  "Le rêve absolu de Gilles (sans limite ni contrainte) ?",
+  // 🎲 En vrac
+  "Son parfum de glace préféré ?",
   "Après 3 verres : joyeux, sentimental, danseur déchaîné ou endormi sur le canapé ?",
   "Sa danse signature — celle qui envahit la piste ou qui la fait fuir ?",
-  "L'anecdote de soirée qu'il ressort à chaque repas de famille ?",
   "Son moment le plus honteux en soirée — celui qu'il assume à moitié ?",
-  // 🤦 Moments de génie
-  "Sa célébrité ou son personnage de fiction préféré de tous les temps ?",
-  "Son talent caché dont il est le plus fier — même si personne d'autre ne le voit vraiment ?",
-  "Son excuse préférée quand il a clairement tort ?",
-  "La chose la plus catastrophique qu'il ait faite en cuisine — et le résultat ?",
-  "S'il était un personnage de film ou de série, lequel choisirait-il — et pourquoi c'est faux ?",
-  // 🎲 Pot pourri
-  "Son parfum de glace préféré ?",
-  "Son jour de la semaine préféré — et pourquoi ça le décrit parfaitement ?",
-  "Son animal spirituel selon lui ?",
-  "La chose qu'il aimerait faire mais n'osera jamais avouer ?",
   "Dans 10 ans, la chose qui vous surprendra encore l'un de l'autre ?",
 ];
 
@@ -720,33 +721,33 @@ const G1_DEFAULTS = [
 // GAME 2 — THEMES & DARES (4×4)
 // ─────────────────────────────────────────
 const G2_THEMES = [
-  {name:"En scène, Mathilde !",  emoji:"💃"},
-  {name:"Prises de contact",     emoji:"🗣️"},
+  {name:"En scène, Mathilde !",  emoji:"🎤"},
+  {name:"En terrain inconnu",    emoji:"🌍"},
   {name:"Révélations",           emoji:"🌶️"},
-  {name:"Défis physiques",       emoji:"💪"},
+  {name:"Les défis de Gigi",     emoji:"🤵"},
 ];
 
 const G2_DARES = [
-  // 💃 En scène (4 diffs × 1 theme = 4 dares)
+  // 🎤 En scène, Mathilde !
   "Imiter Gilles pendant 2 minutes devant tout le groupe — façon de parler, gestuelle, expressions.",
+  "Passer la commande de l'apéro pour tout le groupe en chantant.",
   "Chanter une chanson d'amour à voix haute dans un lieu public, jusqu'au bout.",
-  "Faire un discours de future mariée de 2 minutes dans un bar, devant des inconnus.",
-  "Recruter un inconnu pour reproduire avec toi la première danse de votre mariage.",
-  // 🗣️ Prises de contact
-  "Demander un selfie à un inconnu en lui disant que tu es une influenceuse célèbre.",
-  "Faire signer ton bras à 3 inconnus différents comme si tu étais une star.",
-  "Convaincre un inconnu que vous tournez un film et qu'il doit y jouer un rôle.",
+  "Reproduire la première danse du mariage — avec quelqu'un ou en solo.",
+  // 🌍 En terrain inconnu
+  "Traverser un espace public en marchant à reculons pendant 1 minute complète.",
+  "Demander un selfie à un inconnu en te présentant comme une influenceuse célèbre.",
   "Se faire offrir un verre par quelqu'un que tu ne connais pas — sans mentionner l'EVJF.",
+  "Récupérer 3 conseils de couple auprès de personnes mariées depuis +20 ans, et 3 choses à éviter.",
   // 🌶️ Révélations
   "Lire à voix haute le dernier message envoyé à Gilles — sans modifier un mot.",
   "Donner une note sur 10 à Gilles dans 5 catégories imposées par le groupe.",
-  "Révéler le surnom que tu donnes à Gilles en privé — et l'expliquer en détail.",
   "Appeler Gilles en direct et lui déclarer ta flamme en public, sur haut-parleur.",
-  // 💪 Défis physiques
-  "10 squats en tenue de soirée sans perdre ses chaussures.",
-  "Traverser un espace public en marchant à reculons pendant 1 minute complète.",
-  "Porter une copine de ton choix à bout de bras pendant 30 secondes.",
   "Défi ultime décidé à l'unanimité par le groupe à l'instant T — Mathilde doit accepter.",
+  // 🤵 Les défis de Gigi (remplis par Gilles via son formulaire)
+  "Défi de Gigi — en attente…",
+  "Défi de Gigi — en attente…",
+  "Défi de Gigi — en attente…",
+  "Défi de Gigi — en attente…",
 ];
 
 // ─────────────────────────────────────────
@@ -1304,6 +1305,10 @@ function importCode() {
       answers = raw.a || {};
       gigiDares = raw.d || [];
       daresImported = gigiDares.length > 0;
+      // Populate the Gigi dare slots (theme 4, indices 12–15)
+      gigiDares.forEach((dare, i) => {
+        if (dare.text) customDares[12 + i] = dare.text;
+      });
     } else {
       // legacy format: plain answers object
       answers = raw;
