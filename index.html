@@ -743,10 +743,10 @@ const G2_DARES = [
   "Donner une note sur 10 à Gilles dans 5 catégories imposées par le groupe.",
   "Appeler Gilles en direct et lui déclarer ta flamme en public, sur haut-parleur.",
   "Défi ultime décidé à l'unanimité par le groupe à l'instant T — Mathilde doit accepter.",
-  // 🤵 Les défis de Gigi (remplis par Gilles via son formulaire)
-  "Défi de Gigi — en attente…",
-  "Défi de Gigi — en attente…",
-  "Défi de Gigi — en attente…",
+  // 🤵 Les défis de Gigi
+  "Demander l'adresse du bar en anglais dans la rue à une personne française.",
+  "Demander de passer « la dernière de JUL » dans le bar en étant incapable de citer le nom d'une de ses chansons.",
+  "Parler de ses problèmes de ventre à une personne qui n'a rien demandé.",
   "Défi de Gigi — en attente…",
 ];
 
@@ -757,7 +757,7 @@ const PASSWORD = "Loulou";
 const GILLES_PASSWORD = "PJISMAGIC";
 let pwTarget = 'setup'; // where to go after password
 
-let answers     = {};   // {idx: "Gilles answer"}
+let answers     = {"0":"30","1":"Spontanément","2":"Jeter les restes périmés du frigo","3":"50/50 sauf en ce moment comme je bosse pas","4":"Quand je me gratte l’entrejambe","5":"Mathilde","6":"Bouquet de fleur avec le malheur d’avoir une fleur orange","7":"Elle va dire « se refaire une garde robe » mais c’est pas vrai","8":"N/A","9":"Quand je dis un truc de gauche / quand elle dit un truc trop de droite","10":"Si pas le choix, Mathilde","11":"Été pour les deux","12":"Pour elle : Pretty Woman. Pour moi : les infiltrés mais elle peut pas savoir","13":"Mathilde : fromage. Moi : la glace en vacances","14":"N/A","15":"Mes plats au four, elle en peut plus","16":"Bonne question j’en sais rien 🤣","17":"Botswana","18":"Aucune idée 🤣","19":"Avoir une maison, des enfants avec Mathilde, bien géré la vie pro et perso, faire du tennis avec du soleil et des bières pour le foot !","20":"Vanille","21":"Joyeux","22":"Elle sait, quand j’étais en boîte de nuit sans savoir danser","23":"Les lendemains/nuits difficiles","24":"Son bordel organisé et sa capacité à analyser une situation"};   // {idx: "Gilles answer"}
 let customQ     = {};   // {idx: "custom question"} — overrides G1_DEFAULTS
 let customDares = {};   // {idx: "custom dare"}     — overrides G2_DARES
 let gigiDares   = [];   // [{text, diff}] — Gilles' 4 personal dares
